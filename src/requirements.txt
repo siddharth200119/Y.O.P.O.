@@ -1,6 +1,0 @@
-fastapi
-uvicorn[standard]
-python-multipart
-ultralytics
-Jinja2
-requests
