@@ -66,3 +66,10 @@ This will download the YOLOv8n model (if not already present), run inference on 
 ## Training
 
 The models in this project were trained using the `training/main.ipynb` notebook. If you want to retrain the models or train with new data, you can use this notebook as a starting point.
+
+## Future Work
+
+- [ ] **Custom Dataset Collection Script:** Develop a script to automate the collection and annotation of custom datasets for training.
+- [ ] **Hierarchical Detection Model:** Implement a secondary model that takes a detected bounding box (e.g., a button or a card) and detects the text and icons within it.
+- [ ] **Stable Data Output:** Investigate and implement models or techniques that provide more stable and structured data output, reducing variability between inferences.
+- [ ] **Python Package:** Package the project into an installable Python package (`pip install yopo`) for easier distribution and use.
