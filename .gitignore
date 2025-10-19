@@ -234,3 +234,8 @@ site/
 # Keep notebook
 !main.ipynb
 !*.ipynb
+
+# Inference app specific
+src/models/
+src/static/uploads/
+src/static/results/
