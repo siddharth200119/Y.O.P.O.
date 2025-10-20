@@ -1,8 +1,10 @@
 from pathlib import Path
 from yopo.models import modal_sizes 
-from typing import Optional
+from typing import Optional, Union
 from ultralytics import YOLO
 import requests
+from PIL import Image
+import numpy.typing as npt
 
 class YOPO():
     def __init__(
@@ -25,7 +27,6 @@ class YOPO():
         cache_dir.mkdir(parents=True, exist_ok=True)
         return cache_dir
 
-
     def load_modal(self) -> Path:
         if not self.version:
             #logic to get the latest version using github api
@@ -35,8 +36,6 @@ class YOPO():
             self.version = response_data.get('tag_name', None)
             if(not self.version):
                 raise RuntimeError('No latest versions found please contact developer or pass in a custom modal')
-
-        #https://github.com/siddharth200119/Y.O.P.O./releases/download/1.0.0/yopo_n.pt
 
         link = f"https://github.com/siddharth200119/Y.O.P.O./releases/download/{self.version}/yopo_{self.modal_size}.pt"
         file_name = f"yopo_{self.version}_{self.modal_size}.pt"
@@ -55,4 +54,13 @@ class YOPO():
                 f.write(chunk)
 
         return file_path
-
+    
+    def predict(
+            self,
+            source: Union[str, int, Image, npt.NDArray]
+        ):
+        if(not self.modal):
+            raise RuntimeError('no modal is initialized')
+        return self.modal.predict(
+            source=source
+        )
