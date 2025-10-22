@@ -1,10 +1,9 @@
 from pathlib import Path
 from yopo.models import modal_sizes 
-from typing import Optional, Union
+from typing import List, Optional
 from ultralytics import YOLO
 import requests
-from PIL import Image
-import numpy.typing as npt
+from yopo.models import Result, BBOX
 
 class YOPO():
     def __init__(
@@ -57,10 +56,27 @@ class YOPO():
     
     def predict(
             self,
-            source: Union[str, int, Image, npt.NDArray]
+            source: Path
         ):
         if(not self.modal):
             raise RuntimeError('no modal is initialized')
-        return self.modal.predict(
+        results = self.modal.predict(
             source=source
-        )
+        )[0]
+        
+        final_results: List[Result] = []
+
+        for box in results.boxes:
+            bbox = BBOX(
+                xyxy=box.xyxy[0].tolist(),
+                xywh=box.xywh[0].tolist()
+            )
+
+            final_results.append(
+                Result(
+                    bbox=bbox,
+                    class_idx=int(box.cls[0].item()),
+                    conf=float(box.conf[0].item())
+                )
+            )
+        return final_results
