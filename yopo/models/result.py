@@ -22,6 +22,7 @@ class Result(BaseModel):
     class_idx: int
     class_name: Optional[classes] = None
     conf: float
+    content: Optional[str]
 
     @model_validator(mode="after")
     def assign_class_name(cls, model):
